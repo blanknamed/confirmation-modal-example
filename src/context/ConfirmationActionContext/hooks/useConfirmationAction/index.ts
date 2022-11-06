@@ -1,0 +1,1 @@
+export { useConfirmationAction } from './useConfirmationAction';
