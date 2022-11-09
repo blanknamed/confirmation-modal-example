@@ -24,13 +24,13 @@ export const ConfirmationModal = () => {
 	} = useConfirmationActionContext();
 
 	const onModalClose = async () => {
-    resolvePromise!(true);
+    resolvePromise!(false);
 
     resetModal();
 	};
 
 	const onAcceptClick = async () => {
-    resolvePromise!(false);
+    resolvePromise!(true);
 
     resetModal();
 	};
