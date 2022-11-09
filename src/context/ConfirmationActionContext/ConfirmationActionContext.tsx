@@ -3,34 +3,33 @@ import { ConfirmationModal } from './components';
 import {
 	ConfirmationActionContextProviderProps,
 	ConfirmationModalData,
-	ModalActions,
+	ResolveAction,
 	ConfirmationActionContextState,
 } from './types';
 
 export const ConfirmationActionContext = React.createContext<ConfirmationActionContextState | undefined>(undefined);
 
 export const ConfirmationActionContextProvider = ({ children }: ConfirmationActionContextProviderProps): JSX.Element => {
-	const initialModalData: ConfirmationModalData = { title: '', subTitle: undefined };
+	const initialModalData: ConfirmationModalData = { title: '', subTitle: undefined, open: false };
 
-	const [modalActions, setModalActions] = React.useState<ModalActions | undefined>(undefined);
-	const [modalOpen, setModalOpen] = React.useState(false);
+	const modalActions = React.useRef<ResolveAction | undefined>(undefined);
 	const [modalData, setModalData] = React.useState<ConfirmationModalData>(initialModalData);
 
 	const resetModal = () => {
-		setModalOpen(false);
-
 		setModalData(initialModalData);
 
-		setModalActions(undefined);
+		setResolve(undefined);
+	};
+
+	const setResolve = (nextResolve: ResolveAction | undefined) => {
+		modalActions.current = nextResolve;
 	};
 
 	return (
 		<ConfirmationActionContext.Provider
 			value={{
-				modalActions,
-				setModalActions,
-				modalOpen,
-				setModalOpen,
+				resolvePromise: modalActions.current,
+				setResolve,
 				modalData,
 				setModalData,
 				resetModal,

@@ -1,22 +1,15 @@
 import { useConfirmationActionContext } from '../useConfirmationActionContext';
-import { ConfirmationModalData } from '../../types';
+import { WaitForAnswerArgs } from '../../types';
 
 export const useConfirmationAction = () => {
-	const { setModalData, setModalOpen, setModalActions } = useConfirmationActionContext();
+	const { setModalData, setResolve } = useConfirmationActionContext();
 
-	const waitForAnswer = ({ title, subTitle }: ConfirmationModalData) => new Promise<boolean>(resolve => {
-		setModalData({ title, subTitle });
+	const waitForAnswer = ({ title, subTitle }: WaitForAnswerArgs) =>
+		new Promise<boolean>(resolve => {
+			setModalData({ title, subTitle, open: true });
 
-		setModalActions({
-			acceptAction() {
-				resolve(true);
-			},
-			denyAction() {
-				resolve(false);
-			},
+			setResolve(resolve);
 		});
-		setModalOpen(true);
-	});
 
 	return { waitForAnswer };
 };

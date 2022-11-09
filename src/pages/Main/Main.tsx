@@ -5,7 +5,7 @@ export const Main = () => {
 	const { waitForAnswer } = useConfirmationAction();
 
 	const onButtonClick = async () => {
-		console.log(await waitForAnswer({ title: 'TEST', subTitle: 'Test sub' }));
+		console.log(await waitForAnswer({ title: 'test', subTitle: 'Test sub' }));
 	};
 
 	return (

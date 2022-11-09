@@ -2,22 +2,24 @@ import * as React from 'react';
 
 export interface ConfirmationModalData {
   title: string,
-  subTitle?: string
+  subTitle?: string,
+  open: boolean
 }
+export type WaitForAnswerArgs = Omit<ConfirmationModalData, 'open'>
 
 export type ReactSetStateAction<T> = React.Dispatch<React.SetStateAction<T>>
-export type ModalActions = { acceptAction: () => void, denyAction: () => void }
+export type ResolveAction = (value: ResolveActionArgument) => void
 
 export interface ConfirmationActionContextProviderProps {
   children: React.ReactNode
 }
 
+export type ResolveActionArgument = boolean | PromiseLike<boolean>
+
 export interface ConfirmationActionContextState {
-  modalOpen: boolean,
   modalData: ConfirmationModalData,
-  setModalOpen: ReactSetStateAction<boolean>
   setModalData: ReactSetStateAction<ConfirmationModalData>
   resetModal: () => void
-  modalActions?: ModalActions
-  setModalActions: (actions: ModalActions) => void
+  resolvePromise?: (value: boolean) => void
+  setResolve: (nextResolve: ResolveAction) => void
 }

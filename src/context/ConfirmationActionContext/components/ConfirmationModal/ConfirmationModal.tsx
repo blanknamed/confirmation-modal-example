@@ -13,30 +13,38 @@ import {
 import { useConfirmationActionContext } from '../../hooks/useConfirmationActionContext';
 
 export const ConfirmationModal = () => {
-	const { modalOpen, modalData, resetModal, modalActions } = useConfirmationActionContext();
+	const {
+		modalData: {
+			title,
+			subTitle,
+			open,
+		},
+		resetModal,
+		resolvePromise,
+	} = useConfirmationActionContext();
 
 	const onModalClose = async () => {
-		await modalActions!.denyAction();
+    resolvePromise!(true);
 
-		resetModal();
+    resetModal();
 	};
 
 	const onAcceptClick = async () => {
-		await modalActions!.acceptAction();
+    resolvePromise!(false);
 
-		resetModal();
+    resetModal();
 	};
 
 	return (
-		<Modal isCentered isOpen={modalOpen} onClose={onModalClose}>
+		<Modal isCentered isOpen={open} onClose={onModalClose}>
 			<ModalOverlay></ModalOverlay>
 			<ModalContent>
 				<ModalHeader>
-					{modalData.title}
+					{title}
 				</ModalHeader>
 				<ModalCloseButton/>
 				<ModalBody>
-					{modalData.subTitle && <Text>{modalData.subTitle}</Text>}
+					{subTitle && <Text>{subTitle}</Text>}
 					<Text>Are you sure you want to confirm the action?</Text>
 				</ModalBody>
 				<ModalFooter>
